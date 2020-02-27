@@ -32,8 +32,9 @@ end
 
 function and_gate()
     weights = [0.3, 0.3, -0.5]
-    print("\033[92mAND GATE \nInput 1: \nInput 2: \033[0m")
+    print("\033[92mAND GATE \nInput 1: \033[0m")
     x = parse(Int64, readline())
+    print("\033[92mInput 2: ")
     y = parse(Int64, readline())
     if isa(x, Number)
         inputs = [x, y, 1]
@@ -41,7 +42,7 @@ function and_gate()
         print("\nBad input")
         return
     end
-    println(string("Result: ", f(weights, inputs)))
+    println(string("Result: ", f(weights, inputs), "\033[0m"))
 end
 
 function nand_gate()
