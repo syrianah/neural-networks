@@ -8,16 +8,23 @@
 # 3) NAND
 # 4) OR
 
-using LinearAlgebra
+function dot(v1, v2, m)
+    x = 0
+    for i in 1:m
+        x += v1[i] * v2[i]
+    end
+    return x
+end
 
-function f(weights, inputs)
-    if dot(weights, inputs) >= 0
+function f(weights, inputs, m)
+    if dot(weights, inputs, m) >= 0
         return 1
     else return 0
     end
 end
 
 function not_gate()
+    m = 2
     weights = [-0.5, 0.3]
     print("\033[92mNOT GATE \nInput: \033[0m")
     x = parse(Int64, readline())
@@ -27,10 +34,11 @@ function not_gate()
         print("\nBad input")
         return
     end
-    println(string("Result: ", f(weights, inputs)))
+    println(string("Result: ", f(weights, inputs, m)))
 end
 
 function and_gate()
+    m = 3
     weights = [0.3, 0.3, -0.5]
     print("\033[92mAND GATE \nInput 1: \033[0m")
     x = parse(Int64, readline())
@@ -42,10 +50,11 @@ function and_gate()
         print("\nBad input")
         return
     end
-    println(string("Result: ", f(weights, inputs), "\033[0m"))
+    println(string("Result: ", f(weights, inputs, m), "\033[0m"))
 end
 
 function nand_gate()
+    m = 3
     weights = [-0.4, -0.4, 0.6]
     print("\033[95mNAND GATE \n\033[92mInput 1: \033[0m")
     x = parse(Int64, readline())
@@ -57,10 +66,11 @@ function nand_gate()
         print("\nBad input")
         return
     end
-    println(string("Result: ", f(weights, inputs), "\033[0m"))
+    println(string("Result: ", f(weights, inputs, m), "\033[0m"))
 end
 
 function or_gate()
+    m = 3
     weights = [0.3, 0.3, -0.2]
     print("\033[95mOR GATE \n\033[92mInput 1: \033[0m")
     x = parse(Int64, readline())
@@ -72,7 +82,7 @@ function or_gate()
         print("\nBad input")
         return
     end
-    println(string("Result: ", f(weights, inputs), "\033[0m"))
+    println(string("Result: ", f(weights, inputs, m), "\033[0m"))
 end
 
 
@@ -81,4 +91,4 @@ end
 # not_gate()
 # and_gate()
 # nand_gate()
-# or_gate()
+or_gate()
