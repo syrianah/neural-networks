@@ -50,6 +50,7 @@ def main():
     # U1
     a = [6, 7, 12, 17, 22, 25]
     inputs.append([1.0 if i in a else 0.0 for i in range(26)])
+    # print(inputs)
 
     # U2
     a = [2, 3, 8, 13, 25]
