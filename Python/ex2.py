@@ -68,6 +68,7 @@ def main():
     a = [10, 11, 12, 15, 17, 20, 21, 22, 25]
     inputs.append([1.0 if i in a else 0.0 for i in range(26)])
 
+    # print(inputs)
     # invoke iteration for different learning factors
     for c in [0.01, 0.1, 1.0]:
         iter(c, inputs)

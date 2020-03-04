@@ -16,7 +16,7 @@ function f(weights, inputs, m)
 end
 
 function z(t)
-    if (t % 5 + 1) <= 3
+    if (mod(t, 5) + 1) <= 3
         return 1.0
     else 
         return 0.0
@@ -30,9 +30,9 @@ function iter(c, inputs)
 
     while counter < 5.0
         zt = z(t)
-        yt = f(inputs[t % 5], weights, length(weights))
+        yt = f(inputs[mod(t, 5) + 1], weights, length(weights))
         for i in 1:26
-            weights[i] = weights[i] + c * (zt - yt) * inputs[t % 5][i]
+            weights[i] = weights[i] + c * (zt - yt) * inputs[mod(t, 5) + 1][i]
         end
         t += 1
         if zt == yt
@@ -41,7 +41,22 @@ function iter(c, inputs)
             counter = 0.0
         end
     end
-    print(string(c, t))
+    println(string("C: ", c, "\tT: ", t))
+    for i in 1:length(weights)
+        println(string("W", i, ": ", weights[i]))
+    end
 end
 
-iter(1, 1)
+function main()
+    inputs = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0],
+    [0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0], 
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0]]
+
+    for c in [0.01, 0.1, 1.0]
+        iter(c, inputs)
+    end
+end
+
+main()
