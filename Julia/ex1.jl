@@ -86,8 +86,6 @@ function or_gate()
 end
 
 
-
-# println(f(100))
 # not_gate()
 # and_gate()
 # nand_gate()
