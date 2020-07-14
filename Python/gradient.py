@@ -1,7 +1,9 @@
+# Python
 # Gradient descent
 import random
 
-
+# Function return true if summed difference between x_new and x_old is grater than epsilon
+# else return false
 def check_epsilon(x_new, x_old, epsilon):
     sum = 0.0
     for i in range(len(x_new)):
@@ -10,11 +12,11 @@ def check_epsilon(x_new, x_old, epsilon):
         return False
     return True
 
-
+# Function to calculate value from first input function
 def first_function(x_1, x_2):
     return 2*x_1**2 + x_2**2 - 2 * x_1 * x_2 - 2 * x_1 + 1
 
-
+# Function to calculate first gradient
 def calculate_first_gradient(x_old, epsilon, c):
     print("First gradient")
     print(f"Values: [{x_old[0], x_old[1]}]")
@@ -26,19 +28,19 @@ def calculate_first_gradient(x_old, epsilon, c):
         # assign x_old elements to variables for brevity
         x = x_old[0]
         y = x_old[1]
-        x_new[0] = x - c * (4 * x - 2 * y - 2)
-        x_new[1] = y - c * (2 * y - 2 * x)
-        flag = check_epsilon(x_new, x_old, epsilon)
+        x_new[0] = x - c * (4 * x - 2 * y - 2) # derivative by x1
+        x_new[1] = y - c * (2 * y - 2 * x) # derivative by x2
+        flag = check_epsilon(x_new, x_old, epsilon) # check diference
         x_old = list(x_new)  # copy x_new to x_old
     print(f"Point({x_new[0]}, {x_new[1]})")
     print(f"Value: {first_function(x_new[0], x_new[1])}\n")
 
-
+# Function to calculate value from second input function
 def second_function(x_1, x_2):
     # x ** y => x to the power of y
     return x_1**4/2 - x_1**3/3 - x_1**2/2 + x_2**2 - 2*x_2 + 1
 
-
+# Function to calculate second gradient
 def calculate_second_gradient(x_old, epsilon, c):
     print("Second gradient")
     print(f"Values: [{x_old[0], x_old[1]}]")
@@ -49,9 +51,9 @@ def calculate_second_gradient(x_old, epsilon, c):
         x = x_old[0]
         y = x_old[1]
         x_new = list(x_old)  # copy x_old to x_new
-        x_new[0] = x - c * (2 * x ** 3 - x ** 2 - x)
-        x_new[1] = y - c * (2 * y - 4)
-        flag = check_epsilon(x_new, x_old, epsilon)
+        x_new[0] = x - c * (2 * x ** 3 - x ** 2 - x) # derivative by x1
+        x_new[1] = y - c * (2 * y - 4) # derivative by x2
+        flag = check_epsilon(x_new, x_old, epsilon) # derivative by x2
         x_old = list(x_new)  # copy x_new to x_old
     print(f"Point({x_new[0]}, {x_new[1]})")
     print(f"Value: {second_function(x_new[0], x_new[1])}\n")
@@ -63,7 +65,7 @@ def main():
     epsilon = 0.00001
     c = 0.01
     # Generate list of length 2 with random floats between -5 <= x < 5
-    input_first = [round(random.uniform(-2, 2), 2) for i in range(2)]
+    input_first = [round(random.uniform(-5, 5), 2) for i in range(2)]
     calculate_first_gradient(input_first, epsilon, c)
     # Generate list of length 2 with random floats between -3 <= x < 3
     input_second = [round(random.uniform(-2, 2), 2) for i in range(2)]
