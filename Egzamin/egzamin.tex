@@ -330,8 +330,31 @@ Lepiej byłoby, wyniki przestawione $0 \rightarrow \_$ i $0 \rightarrow *$.
         Wojciechs-Mac-Pro:Python wojciechkubiak$ 
     \end{lstlisting}
 \subsection{Analiza działania programu}
-Działanie programu jest następujące, najpierw losowany jest punkt (x1, x2) i sprawdzane są pochodne w danym punkcie, aby określić nachylenie funkcji. Następnie parametry dostosowywanie są w ten sposób, aby przemieścić je w stronę minimum lokalnego, od parametru odejmowana jest pochodna w stosunku do tego parametru w danym punkcie pomnożona przez stałą c czyli tempo uczenia. Stała c nie może być za duża, ponieważ może „przeskoczyć” minimum lokalne po odjęciu.
-Korekcja parametru jest powtarzana tak długo aż różnica między nowymi a starymi parametrami nie będzie mniejsza od epsilona.
+Stany Maszyny Boltzmana obliczamy za pomocą funkcji
 
+\[
+    x_i(t+1) = 
+    \begin{cases}
+        1, & \text{gdy $0 \leq \beta_i \leq f(u_i(t))$} \\
+        0, & \text{gdy $ f(u_i(t)) \leq \beta_i \leq 1$}
+    \end{cases}
+\]
+gdzie $\beta_i \in [0, 1]$, funkcja $f(u_i(t))$ wygląda następująco
+\[f(u_i) = \frac{1}{1 + e^{-\frac{u_i(t)}{T}}}\]
+
+W naszym przypadku $u_i(t)$ obliczamy z
+\[u_i(t) = \bigg\{ \sum^{20}_{j=1}w_{ij}x_j(t) \bigg\} - \theta_i\]
+
+dla wartość 0.25 dla $x_j = 0$ oraz -0.25 dla $x_j = 1$.
+Dla temperatur bliskich zero otrzymamy
+\[lim_{T \rightarrow 0}f(0.25) = lim_{T \rightarrow 0}\frac{1}{1 + e^{-\frac{0.25}{T}}} = lim_{x \rightarrow - \infty}\frac{1}{1 + e^x} = lim_{x \rightarrow 0} \frac{1}{1 + x} = 1\]
+\[lim_{T \rightarrow 0}f(-0.25) = lim_{T \rightarrow 0}\frac{1}{1 + e^{\frac{0.25}{T}}} = lim_{x \rightarrow + \infty}\frac{1}{1 + e^x} = lim_{x \rightarrow + \infty} \frac{1}{1 + x} = 0\]
+
+Dla takich temperatur stan maszyny będzie zmieniał się na przeciwny. Stan każdego neuronu $x_i$ zmieni się w następujący sposób:
+\[x_i(t) = 0 \Longrightarrow x_i(t+1) = 1\]
+
+Wartości funkcji $f(u_i)$ zbliżają się do $\frac{1}{2}$ kiedy temperatura rośnie.
+\[lim_{T \rightarrow + \infty}f(\pm 0.25) = lim_{T \rightarrow + \infty}\frac{1}{1 + e^{\frac{\pm 0.25}{T}}} = lim_{x \rightarrow \pm 0}\frac{1}{1+e^x} = lim_{x \rightarrow 1}\frac{1}{1 + x} = \frac{1}{2}\]
+Kolejne stany maszyny stają się bardziej losowe, gdyż prawdopodobieństwo $P(f(u_i) \leq \beta) \rightarrow \frac{1}{2}$ i $P(\beta \leq f(u_i)) \rightarrow \frac{1}{2}$.
 
 \end{document}
